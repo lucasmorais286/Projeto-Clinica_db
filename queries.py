@@ -143,3 +143,50 @@ def update_appointment_status(appointment_id, status):
     conn.close()
     print(f"Status da consulta {appointment_id} atualizado para '{status}' com sucesso!")
 
+
+#ReportPayments-------------------------------------------------
+
+def get_payments_by_patient_report(patient_id):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT SUM(Amount), COUNT(*) 
+        FROM Payments
+        WHERE PatientID = %s
+    """, (patient_id,))
+    
+    report = cur.fetchone()
+    cur.close()
+    conn.close()
+    return report  # Retorna uma tupla (total pago, número de pagamentos)
+
+def get_payments_by_clinic_report(clinic_id):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT SUM(p.Amount), COUNT(*)
+        FROM Payments p
+        JOIN Appointments a ON p.AppointmentID = a.AppointmentID
+        WHERE a.ClinicID = %s
+    """, (clinic_id,))
+    
+    report = cur.fetchone()
+    cur.close()
+    conn.close()
+    return report  # Retorna uma tupla (total pago, número de pagamentos)
+
+def get_payments_by_status_report(status):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT SUM(Amount), COUNT(*)
+        FROM Payments
+        WHERE Status = %s
+    """, (status,))
+    
+    report = cur.fetchone()
+    cur.close()
+    conn.close()
+    return report  # Retorna uma tupla (total pago, número de pagamentos)
+
+

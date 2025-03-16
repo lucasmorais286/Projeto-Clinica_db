@@ -82,3 +82,19 @@ def get_payments_by_appointment(appointment_id):
     cur.close()
     conn.close()
     return payments
+
+
+#Services-----------------------------------------
+
+def get_all_services():
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT * FROM Services
+    """)
+    
+    services = cur.fetchall()
+    cur.close()
+    conn.close()
+    return services
+

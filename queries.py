@@ -126,3 +126,20 @@ def get_medical_records_by_professional(professional_id):
     cur.close()
     conn.close()
     return medical_records
+
+
+#UpdateStatus-------------------------------------------------------
+def update_appointment_status(appointment_id, status):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        UPDATE Appointments
+        SET Status = %s
+        WHERE AppointmentID = %s
+    """, (status, appointment_id))
+    
+    conn.commit()
+    cur.close()
+    conn.close()
+    print(f"Status da consulta {appointment_id} atualizado para '{status}' com sucesso!")
+

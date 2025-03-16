@@ -1,5 +1,7 @@
 from database import connect
 
+#Appointments--------------------------------------------------
+
 def get_appointments_by_patient(patient_id):
     conn = connect()
     cur = conn.cursor()
@@ -38,3 +40,45 @@ def get_appointments_by_professional(professional_id):
     cur.close()
     conn.close()
     return appointments
+
+
+#Payments---------------------------------------------------------------
+
+def get_payments_by_patient(patient_id):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT * FROM Payments
+        WHERE PatientID = %s
+    """, (patient_id,))
+    
+    payments = cur.fetchall()
+    cur.close()
+    conn.close()
+    return payments
+
+def get_payments_by_status(status):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT * FROM Payments
+        WHERE Status = %s
+    """, (status,))
+    
+    payments = cur.fetchall()
+    cur.close()
+    conn.close()
+    return payments
+
+def get_payments_by_appointment(appointment_id):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT * FROM Payments
+        WHERE AppointmentID = %s
+    """, (appointment_id,))
+    
+    payments = cur.fetchall()
+    cur.close()
+    conn.close()
+    return payments

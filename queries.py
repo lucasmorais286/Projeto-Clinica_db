@@ -98,3 +98,31 @@ def get_all_services():
     conn.close()
     return services
 
+
+#MedicalRecords------------------------------------------------------
+
+def get_medical_records_by_patient(patient_id):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT * FROM MedicalRecords
+        WHERE PatientID = %s
+    """, (patient_id,))
+    
+    medical_records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return medical_records
+
+def get_medical_records_by_professional(professional_id):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT * FROM MedicalRecords
+        WHERE ProfessionalID = %s
+    """, (professional_id,))
+    
+    medical_records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return medical_records

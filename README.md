@@ -44,21 +44,30 @@ python test_queries.py
 Se encontrar erros de chave estrangeira ou sequência de IDs, execute no PostgreSQL:
 
 ```sql
--- Limpar todas as tabelas
-TRUNCATE TABLE MedicalRecords, Payments, AppointmentServices, 
-             Appointments, Services, Professionals, Patients, 
-             Clinics, Inventory, Equipment CASCADE;
+-- Limpar todas as tabelas (na ordem correta para respeitar as foreign keys)
+TRUNCATE TABLE 
+    MedicalRecords,           -- Dependente de Appointments, Professionals, Patients
+    AppointmentServices,      -- Dependente de Appointments, Services
+    Payments,                 -- Dependente de Appointments, Patients
+    Appointments,             -- Dependente de Clinics, Professionals, Patients
+    Equipment,                -- Dependente de Clinics
+    Inventory,                -- Dependente de Clinics
+    Services,                 -- Independente
+    Professionals,            -- Dependente de Clinics
+    Patients,                 -- Independente
+    Clinics                   -- Tabela base
+CASCADE;
 
 -- Resetar sequências
-ALTER SEQUENCE "Clinics_ClinicID_seq" RESTART WITH 1;
-ALTER SEQUENCE "Professionals_ProfessionalID_seq" RESTART WITH 1;
-ALTER SEQUENCE "Patients_PatientID_seq" RESTART WITH 1;
-ALTER SEQUENCE "Appointments_AppointmentID_seq" RESTART WITH 1;
-ALTER SEQUENCE "Services_ServiceID_seq" RESTART WITH 1;
-ALTER SEQUENCE "Payments_PaymentID_seq" RESTART WITH 1;
-ALTER SEQUENCE "MedicalRecords_RecordID_seq" RESTART WITH 1;
-ALTER SEQUENCE "Inventory_ItemID_seq" RESTART WITH 1;
-ALTER SEQUENCE "Equipment_EquipmentID_seq" RESTART WITH 1;
+ALTER SEQUENCE clinics_clinicid_seq RESTART WITH 1;
+ALTER SEQUENCE professionals_professionalid_seq RESTART WITH 1;
+ALTER SEQUENCE patients_patientid_seq RESTART WITH 1;
+ALTER SEQUENCE appointments_appointmentid_seq RESTART WITH 1;
+ALTER SEQUENCE services_serviceid_seq RESTART WITH 1;
+ALTER SEQUENCE payments_paymentid_seq RESTART WITH 1;
+ALTER SEQUENCE medicalrecords_recordid_seq RESTART WITH 1;
+ALTER SEQUENCE inventory_itemid_seq RESTART WITH 1;
+ALTER SEQUENCE equipment_equipmentid_seq RESTART WITH 1;
 ```
 
 Depois, execute novamente os passos 1, 2 e 3 da seção "Executando o Projeto".

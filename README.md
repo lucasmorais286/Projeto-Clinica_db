@@ -1,45 +1,85 @@
-# Sistema de Gestão de Clínica
+# Sistema de Gestão de Clínica 🏥
 
-Este projeto é um sistema de gerenciamento de dados para uma clínica médica, com funcionalidades para gerenciar consultas, pacientes, profissionais, pagamentos e muito mais. O sistema é desenvolvido em Python, utilizando o banco de dados PostgreSQL para armazenar as informações.
+Sistema de gerenciamento de dados para clínica médica desenvolvido em Python com PostgreSQL.
 
-## Funcionalidades
+## Pré-requisitos 📋
 
-- **Gestão de Clínicas**: Cadastro de clínicas com informações como nome, endereço, especialidade e horário de funcionamento.
-- **Gestão de Profissionais**: Cadastro de profissionais de saúde, associando-os a uma clínica e sua especialidade.
-- **Gestão de Pacientes**: Cadastro de pacientes com informações como nome, data de nascimento, telefone, email e plano de saúde.
-- **Agendamento de Consultas**: Agendamento de consultas com associados a profissionais e clínicas.
-- **Gestão de Pagamentos**: Controle de pagamentos dos pacientes por consulta, com suporte a diferentes métodos de pagamento.
-- **Serviços de Saúde**: Cadastro e associação de serviços de saúde oferecidos nas consultas.
-- **Relatórios Financeiros**: Geração de relatórios financeiros baseados em pagamentos realizados por paciente, clínica ou status de pagamento.
-- **Prontuários Médicos**: Registro de diagnósticos, prescrições e observações relacionadas a cada consulta.
-- **Controle de Estoque e Equipamentos**: Gerenciamento de itens de estoque e equipamentos da clínica, com controle de quantidade e manutenção.
+1. Python 3.x instalado
+2. PostgreSQL instalado e configurado
+3. Biblioteca Python para PostgreSQL:
+```bash
+pip3 install psycopg2-binary
+```
 
-## Tecnologias Utilizadas
+## Configuração 🔧
 
-- **Python**: Linguagem de programação para desenvolvimento das funcionalidades.
-- **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional utilizado para armazenar os dados.
-- **psycopg2**: Biblioteca Python para interação com o banco de dados PostgreSQL.
+1. Configure as credenciais do banco no arquivo `database.py`:
+```python
+DB_NAME = "postgres"
+DB_USER = "seu_usuario"
+DB_PASSWORD = "sua_senha"
+DB_HOST = "127.0.0.1"
+DB_PORT = "5432"
+```
 
-## Estrutura do Projeto
+## Executando o Projeto 🚀
 
-O projeto é composto pelos seguintes arquivos principais:
+1. Crie as tabelas:
+```bash
+python database.py
+```
 
-- **`database.py`**: Contém funções de conexão com o banco de dados e criação das tabelas.
-- **`queries.py`**: Contém funções de consulta e manipulação de dados, como inserção de dados e geração de relatórios.
-- **`main.py`**: Arquivo principal para rodar o sistema, contendo a criação das tabelas e inserção de dados iniciais.
+2. Insira dados de exemplo:
+```bash
+python main.py
+```
 
-## Como Usar
+3. Teste as consultas:
+```bash
+python test_queries.py
+```
 
-### Pré-requisitos
+## ⚠️ Resolução de Problemas
 
-- Python 3.x
-- PostgreSQL
-- Biblioteca `psycopg2`
+Se encontrar erros de chave estrangeira ou sequência de IDs, execute no PostgreSQL:
 
-### Instalação
+```sql
+-- Limpar todas as tabelas
+TRUNCATE TABLE MedicalRecords, Payments, AppointmentServices, 
+             Appointments, Services, Professionals, Patients, 
+             Clinics, Inventory, Equipment CASCADE;
 
-1. Clone este repositório:
+-- Resetar sequências
+ALTER SEQUENCE "Clinics_ClinicID_seq" RESTART WITH 1;
+ALTER SEQUENCE "Professionals_ProfessionalID_seq" RESTART WITH 1;
+ALTER SEQUENCE "Patients_PatientID_seq" RESTART WITH 1;
+ALTER SEQUENCE "Appointments_AppointmentID_seq" RESTART WITH 1;
+ALTER SEQUENCE "Services_ServiceID_seq" RESTART WITH 1;
+ALTER SEQUENCE "Payments_PaymentID_seq" RESTART WITH 1;
+ALTER SEQUENCE "MedicalRecords_RecordID_seq" RESTART WITH 1;
+ALTER SEQUENCE "Inventory_ItemID_seq" RESTART WITH 1;
+ALTER SEQUENCE "Equipment_EquipmentID_seq" RESTART WITH 1;
+```
 
-   ```bash
-   git clone https://github.com/seuusuario/clinica-sistema.git
-   cd clinica-sistema
+Depois, execute novamente os passos 1, 2 e 3 da seção "Executando o Projeto".
+
+## Funcionalidades ✨
+
+- Gestão de Clínicas, Profissionais e Pacientes
+- Agendamento de Consultas
+- Gestão de Pagamentos e Serviços
+- Relatórios Financeiros
+- Prontuários Médicos
+- Controle de Estoque e Equipamentos
+
+## Contribuindo 🤝
+
+1. Faça um Fork do projeto
+2. Crie sua Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a Branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## Suporte 💬
+
+Em caso de dúvidas ou problemas, abra uma issue no repositório.

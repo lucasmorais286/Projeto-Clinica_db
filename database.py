@@ -1,9 +1,9 @@
 import psycopg2
 
-DB_NAME = "clinica_db"
-DB_USER = "seu_usuario"
-DB_PASSWORD = "Llm1109@"
-DB_HOST = "localhost"
+DB_NAME = "postgres"
+DB_USER = "postgres"
+DB_PASSWORD = "postgres"
+DB_HOST = "127.0.0.1"
 DB_PORT = "5432"
 
 def connect():
@@ -18,7 +18,7 @@ def connect():
 def create_tables():
     conn = connect()
     cur = conn.cursor()
-    
+
     queries = [
         """
         CREATE TABLE IF NOT EXISTS Clinics (
